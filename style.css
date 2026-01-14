@@ -331,7 +331,7 @@ h1 {
 
 .project-card:hover .card-more,
 .project-card:focus-within .card-more {
-  max-height: 350px;
+  max-height: 600px;
   opacity: 1;
 }
 
