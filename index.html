@@ -1,308 +1,809 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mathieu Chretien | Software Development Portfolio</title>
-    <meta
-      name="description"
-      content="Portfolio of Mathieu Chretien — 3rd-year Software Development student at Queen’s University."
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mathieu Chretien — Software Development student portfolio." />
+  <title>Mathieu Chretien | Portfolio</title>
 
-    <link rel="stylesheet" href="style.css" />
-  </head>
+  <style>
+    :root{
+      --bg0:#050b22;
+      --bg1:#06143a;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.12);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --muted2: rgba(255,255,255,.55);
+      --border: rgba(255,255,255,.14);
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --glow: rgba(120,170,255,.32);
+      --accent: rgba(120,170,255,1);
+      --accent2: rgba(155,115,255,1);
+      --good: rgba(110, 255, 190, .9);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --radius: 18px;
+      --radius2: 26px;
+    }
 
-  <body>
-    <!-- Animated background (decorative) -->
-    <div class="bg" aria-hidden="true">
-      <div class="bg-glow"></div>
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background: radial-gradient(1200px 900px at 20% 10%, rgba(120,170,255,.20), transparent 60%),
+                  radial-gradient(1000px 800px at 80% 0%, rgba(155,115,255,.18), transparent 55%),
+                  radial-gradient(900px 700px at 65% 80%, rgba(110,255,190,.10), transparent 55%),
+                  linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
 
-      <div class="bg-sides">
-        <!-- Left side -->
-        <div class="side left">
-          <div class="stack">
-            <span class="tag">Java</span>
-            <span class="tag">Python</span>
-            <span class="tag">C</span>
-            <span class="tag">JavaScript</span>
-            <span class="tag">Git</span>
-            <span class="tag">Linux</span>
-            <span class="tag">SQL</span>
-            <span class="tag">VS Code</span>
-            <span class="tag">REST APIs</span>
-            <span class="tag">JUnit</span>
-            <span class="tag">Docker</span>
-            <span class="tag">Bash</span>
-            <span class="tag">xv6 / OS labs</span>
-            <span class="tag">Debugging</span>
-          </div>
-          <div class="stack clone" aria-hidden="true">
-            <span class="tag">Java</span>
-            <span class="tag">Python</span>
-            <span class="tag">C</span>
-            <span class="tag">JavaScript</span>
-            <span class="tag">Git</span>
-            <span class="tag">Linux</span>
-            <span class="tag">SQL</span>
-            <span class="tag">VS Code</span>
-            <span class="tag">REST APIs</span>
-            <span class="tag">JUnit</span>
-            <span class="tag">Docker</span>
-            <span class="tag">Bash</span>
-            <span class="tag">xv6 / OS labs</span>
-            <span class="tag">Debugging</span>
-          </div>
+    /* Animated background layers */
+    .bg{
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+    }
+    .bg::before{
+      content:"";
+      position:absolute;
+      inset:-25%;
+      background:
+        radial-gradient(600px 420px at 25% 30%, rgba(120,170,255,.20), transparent 60%),
+        radial-gradient(560px 400px at 75% 25%, rgba(155,115,255,.18), transparent 60%),
+        radial-gradient(520px 360px at 60% 75%, rgba(110,255,190,.10), transparent 60%);
+      filter: blur(18px);
+      opacity: .95;
+      animation: drift 18s ease-in-out infinite alternate;
+      transform: translate3d(0,0,0);
+    }
+    .bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px 80px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 80px);
+      opacity: .08;
+      mask-image: radial-gradient(circle at 50% 30%, black 0 55%, transparent 85%);
+    }
+    @keyframes drift{
+      0%{ transform: translate(-2%, -1%) scale(1.02); }
+      100%{ transform: translate(2%, 1%) scale(1.06); }
+    }
+
+    /* Subtle noise */
+    .noise{
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events:none;
+      opacity: .09;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
+
+    /* Side rails (tools/languages) */
+    .rail{
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: min(14vw, 170px);
+      z-index: -1;
+      pointer-events: none;
+      opacity: .95;
+    }
+    .rail.left{ left: 0; }
+    .rail.right{ right: 0; }
+
+    .rail::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,.02),
+        rgba(255,255,255,.00),
+        rgba(255,255,255,.02)
+      );
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .rail.right::before{
+      border-right: none;
+      border-left: 1px solid rgba(255,255,255,.08);
+    }
+
+    .rail-inner{
+      position:absolute;
+      inset: 0;
+      overflow:hidden;
+      padding: 18px 10px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .chip{
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .2px;
+      color: rgba(255,255,255,.82);
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      padding: 8px 10px;
+      width: fit-content;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+      transform: translateX(var(--x, 0px)) translateY(var(--y, 0px));
+      animation: floaty var(--d, 10s) ease-in-out infinite alternate;
+      opacity: var(--o, .95);
+    }
+    .chip strong{ color: rgba(255,255,255,.95); font-weight: 700; }
+    @keyframes floaty{
+      0%{ transform: translateX(calc(var(--x, 0px) - 6px)) translateY(calc(var(--y, 0px) - 8px)); }
+      100%{ transform: translateX(calc(var(--x, 0px) + 8px)) translateY(calc(var(--y, 0px) + 10px)); }
+    }
+
+    /* Cursor glow */
+    .cursor-glow{
+      position: fixed;
+      width: 280px;
+      height: 280px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 35% 35%, rgba(120,170,255,.20), transparent 62%),
+                  radial-gradient(circle at 65% 55%, rgba(155,115,255,.14), transparent 60%),
+                  radial-gradient(circle at 50% 70%, rgba(110,255,190,.08), transparent 58%);
+      filter: blur(14px);
+      transform: translate(-50%, -50%);
+      pointer-events:none;
+      z-index: -1;
+      opacity: .9;
+      transition: opacity .2s ease;
+    }
+    @media (prefers-reduced-motion: reduce){
+      .bg::before, .chip{ animation: none !important; }
+      .cursor-glow{ display:none; }
+    }
+
+    /* Layout */
+    .wrap{
+      width: min(1100px, 92vw);
+      margin: 0 auto;
+      padding: 48px 0 80px;
+    }
+    header{
+      padding-top: 30px;
+      padding-bottom: 26px;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 999px;
+      background: rgba(0,0,0,.18);
+      backdrop-filter: blur(12px);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      min-width: 220px;
+    }
+    .dot{
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(120,170,255,.9));
+      box-shadow: 0 0 0 4px rgba(120,170,255,.14), 0 10px 30px rgba(120,170,255,.20);
+    }
+    .brand-title{
+      font-weight: 700;
+      letter-spacing: .2px;
+      font-size: 14px;
+    }
+    nav{
+      display:flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    nav a{
+      color: rgba(255,255,255,.82);
+      text-decoration:none;
+      font-size: 13px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: .15s ease;
+    }
+    nav a:hover{
+      border-color: rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      transform: translateY(-1px);
+    }
+
+    .hero{
+      margin-top: 18px;
+      padding: 26px 20px 22px;
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      position: relative;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(700px 260px at 20% 0%, rgba(120,170,255,.22), transparent 65%),
+                  radial-gradient(560px 240px at 85% 15%, rgba(155,115,255,.20), transparent 65%);
+      opacity: .9;
+      z-index: 0;
+      filter: blur(10px);
+    }
+    .hero > *{ position: relative; z-index: 1; }
+
+    .kicker{
+      font-family: var(--mono);
+      letter-spacing: .4px;
+      color: rgba(255,255,255,.80);
+      font-size: 12px;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.16);
+      border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    .pulse{
+      width: 8px; height: 8px; border-radius:50%;
+      background: rgba(110,255,190,.95);
+      box-shadow: 0 0 0 0 rgba(110,255,190,.35);
+      animation: pulse 1.6s ease-out infinite;
+    }
+    @keyframes pulse{
+      0%{ box-shadow: 0 0 0 0 rgba(110,255,190,.35); }
+      70%{ box-shadow: 0 0 0 10px rgba(110,255,190,0); }
+      100%{ box-shadow: 0 0 0 0 rgba(110,255,190,0); }
+    }
+
+    h1{
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.6px;
+    }
+    .subtitle{
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+      max-width: 70ch;
+    }
+
+    .cta{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: rgba(255,255,255,.90);
+      text-decoration:none;
+      font-size: 13px;
+      transition: .15s ease;
+      box-shadow: 0 16px 40px rgba(0,0,0,.20);
+    }
+    .btn:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.07);
+    }
+    .btn.primary{
+      border-color: rgba(120,170,255,.40);
+      background: linear-gradient(180deg, rgba(120,170,255,.26), rgba(0,0,0,.16));
+    }
+    .btn.primary:hover{
+      border-color: rgba(120,170,255,.62);
+      box-shadow: 0 18px 60px rgba(120,170,255,.16);
+    }
+
+    /* Sections */
+    section{ margin-top: 22px; }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 880px){
+      .grid{ grid-template-columns: 1fr; }
+      .rail{ display:none; }
+    }
+
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 14px 50px rgba(0,0,0,.25);
+      overflow:hidden;
+      transform: translateY(0);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      position: relative;
+    }
+    .card:hover{
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+    }
+    .card .inner{
+      padding: 16px 16px 14px;
+    }
+    .card h2, .card h3{
+      margin: 0 0 8px;
+      letter-spacing: -0.3px;
+    }
+    .card p{
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+    }
+    .meta{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 10px 0 0;
+    }
+    .tag{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,.84);
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 6px 8px;
+      border-radius: 999px;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 16px;
+      margin: 18px 0 12px;
+    }
+    .section-title h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: -0.2px;
+    }
+    .section-title span{
+      color: var(--muted2);
+      font-size: 13px;
+    }
+
+    .project-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .mini{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.16);
+      color: rgba(255,255,255,.86);
+      text-decoration:none;
+      font-size: 12.5px;
+      transition: .15s ease;
+    }
+    .mini:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+    }
+
+    /* Employer-focused "files I edited" block */
+    .files{
+      margin: 12px 0 0;
+      padding: 12px 12px 10px;
+      border-radius: 14px;
+      border: 1px dashed rgba(255,255,255,.16);
+      background: rgba(0,0,0,.14);
+    }
+    .files .label{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,.86);
+      margin-bottom: 8px;
+    }
+    .files .label .spark{
+      width: 8px; height: 8px; border-radius:50%;
+      background: rgba(120,170,255,.95);
+      box-shadow: 0 0 0 6px rgba(120,170,255,.12);
+    }
+    .filelist{
+      margin: 0;
+      padding-left: 18px;
+      color: rgba(255,255,255,.80);
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    .filelist li{ margin: 2px 0; color: rgba(255,255,255,.78); }
+
+    /* Scroll reveal */
+    .reveal{
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.on{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer{
+      margin-top: 22px;
+      padding: 18px 0 0;
+      color: var(--muted2);
+      font-size: 13px;
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .footlinks{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .footlinks a{
+      color: rgba(255,255,255,.72);
+      text-decoration:none;
+      border-bottom: 1px solid transparent;
+    }
+    .footlinks a:hover{
+      border-bottom-color: rgba(255,255,255,.28);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg"></div>
+  <div class="noise"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+  <!-- Side rails -->
+  <aside class="rail left" aria-hidden="true">
+    <div class="rail-inner" id="railLeft"></div>
+  </aside>
+  <aside class="rail right" aria-hidden="true">
+    <div class="rail-inner" id="railRight"></div>
+  </aside>
+
+  <div class="wrap">
+    <header class="reveal">
+      <div class="topbar">
+        <div class="brand">
+          <div class="dot"></div>
+          <div class="brand-title">Mathieu Chretien</div>
+        </div>
+        <nav>
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+
+      <div class="hero">
+        <div class="kicker">
+          <span class="pulse"></span>
+          Third-year Software Development student @ Queen’s University
         </div>
 
-        <!-- Right side -->
-        <div class="side right">
-          <div class="stack">
-            <span class="tag">Data Structures</span>
-            <span class="tag">Algorithms</span>
-            <span class="tag">Operating Systems</span>
-            <span class="tag">Concurrency</span>
-            <span class="tag">Testing</span>
-            <span class="tag">OOP</span>
-            <span class="tag">Clean Code</span>
-            <span class="tag">Architecture</span>
-            <span class="tag">CI/CD</span>
-            <span class="tag">React (learning)</span>
-            <span class="tag">Node.js</span>
-            <span class="tag">Postman</span>
-            <span class="tag">Performance</span>
-          </div>
-          <div class="stack clone" aria-hidden="true">
-            <span class="tag">Data Structures</span>
-            <span class="tag">Algorithms</span>
-            <span class="tag">Operating Systems</span>
-            <span class="tag">Concurrency</span>
-            <span class="tag">Testing</span>
-            <span class="tag">OOP</span>
-            <span class="tag">Clean Code</span>
-            <span class="tag">Architecture</span>
-            <span class="tag">CI/CD</span>
-            <span class="tag">React (learning)</span>
-            <span class="tag">Node.js</span>
-            <span class="tag">Postman</span>
-            <span class="tag">Performance</span>
-          </div>
+        <h1>Building clean, reliable software — from systems code to UI.</h1>
+        <p class="subtitle">
+          I’m Mathieu Chretien (20). I like projects where I can get hands-on with real engineering tradeoffs:
+          debugging, performance, and making things feel smooth for users.
+        </p>
+
+        <div class="cta">
+          <!-- Replace these links when ready -->
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn" href="https://github.com/Radon86x" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="btn" href="#contact">Contact</a>
         </div>
       </div>
-    </div>
-
-    <header class="container header">
-      <a class="logo" href="#top" aria-label="Go to top">MC</a>
-
-      <nav class="nav" aria-label="Primary">
-        <a href="#projects">Projects</a>
-        <a href="#skills">Skills</a>
-        <a href="#education">Education</a>
-        <a href="#contact">Contact</a>
-      </nav>
-
-      <button id="themeBtn" class="btn btn-ghost" aria-label="Toggle theme">🌓</button>
     </header>
 
-    <main id="top" class="container">
-      <!-- HERO -->
-      <section class="hero reveal">
-        <div>
-          <p class="eyebrow">Portfolio</p>
-          <h1>Mathieu Chretien</h1>
+    <section id="about" class="reveal">
+      <div class="section-title">
+        <h2>About</h2>
+        <span>What I’m into right now</span>
+      </div>
 
-          <p class="subtitle">
-            3rd-year Software Development student at Queen’s University.<br />
-            <span class="typed-wrap">
-              <span id="typed" class="typed" aria-live="polite"></span><span class="caret" aria-hidden="true">▍</span>
-            </span>
-          </p>
-
-          <div class="cta">
-            <a class="btn" href="assets/resume.pdf" target="_blank" rel="noopener">Resume</a>
-            <a class="btn btn-ghost" href="https://github.com/your-username" target="_blank" rel="noopener">GitHub</a>
-            <a class="btn btn-ghost" href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noopener">LinkedIn</a>
-          </div>
-        </div>
-
-        <div class="hero-card reveal">
-          <p class="hero-card-title">Currently</p>
-          <ul class="bullets">
-            <li>Building projects in Java / Python / C</li>
-            <li>Improving systems + debugging skills</li>
-            <li>Open to internships / part-time roles</li>
-          </ul>
-          <p class="small muted" id="statusLine"></p>
-        </div>
-      </section>
-
-      <!-- PROJECTS -->
-      <section id="projects" class="section reveal">
-        <div class="section-head">
-          <h2>Projects</h2>
-          <p class="muted">A few things I’ve built or worked on.</p>
-        </div>
-
-        <div class="grid">
-          <article class="card project-card">
-            <div class="thumb" aria-hidden="true">
-              <span class="thumb-label">OS</span>
-            </div>
-
-            <div class="card-top">
-              <h3>Operating Systems Labs (xv6)</h3>
-              <span class="pill">C</span>
-            </div>
-
-            <p class="muted">
-              Kernel-level features and experiments (processes, memory, scheduling) with a focus on correctness and debugging.
+      <div class="grid">
+        <div class="card">
+          <div class="inner">
+            <h3>Strengths</h3>
+            <p>
+              Strong fundamentals in data structures, OS concepts, and debugging. I’m comfortable learning a new stack quickly
+              and I like writing code that’s readable and easy to maintain.
             </p>
-
-            <div class="techline">
-              <span class="chip">C</span><span class="chip">Linux</span><span class="chip">Debugging</span>
+            <div class="meta">
+              <span class="tag">Problem-solving</span>
+              <span class="tag">Systems mindset</span>
+              <span class="tag">Clean code</span>
+              <span class="tag">Teamwork</span>
             </div>
-
-            <div class="card-more" aria-hidden="true">
-              <ul class="mini">
-                <li>Implemented and tested low-level changes with clear outputs</li>
-                <li>Worked with paging/memory behavior, scheduling, and syscalls</li>
-                <li>Focused on edge cases and failure modes</li>
-              </ul>
-            </div>
-
-            <div class="card-links">
-              <a href="https://github.com/your-username/your-xv6-repo" target="_blank" rel="noopener">Code</a>
-              <a href="#" target="_blank" rel="noopener">Write-up</a>
-            </div>
-          </article>
-
-          <article class="card project-card">
-            <div class="thumb" aria-hidden="true">
-              <span class="thumb-label">API</span>
-            </div>
-
-            <div class="card-top">
-              <h3>Automation / Data Tool</h3>
-              <span class="pill">Python</span>
-            </div>
-
-            <p class="muted">
-              A practical tool that processes data, validates inputs, and produces clean outputs (great for showing reliability).
-            </p>
-
-            <div class="techline">
-              <span class="chip">Python</span><span class="chip">Testing</span><span class="chip">CLI</span>
-            </div>
-
-            <div class="card-more" aria-hidden="true">
-              <ul class="mini">
-                <li>Robust error handling and input parsing</li>
-                <li>Clear logging + readable structure</li>
-                <li>Designed to be easy to extend</li>
-              </ul>
-            </div>
-
-            <div class="card-links">
-              <a href="https://github.com/your-username/your-python-project" target="_blank" rel="noopener">Code</a>
-              <a href="#" target="_blank" rel="noopener">Demo</a>
-            </div>
-          </article>
-
-          <article class="card project-card">
-            <div class="thumb" aria-hidden="true">
-              <span class="thumb-label">WEB</span>
-            </div>
-
-            <div class="card-top">
-              <h3>Personal Portfolio Site</h3>
-              <span class="pill">HTML/CSS/JS</span>
-            </div>
-
-            <p class="muted">
-              This site — built from scratch with interactive UI, animations, and a clean, fast layout.
-            </p>
-
-            <div class="techline">
-              <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
-            </div>
-
-            <div class="card-more" aria-hidden="true">
-              <ul class="mini">
-                <li>Scroll reveal animations</li>
-                <li>Typewriter hero text</li>
-                <li>Interactive project cards</li>
-              </ul>
-            </div>
-
-            <div class="card-links">
-              <a href="https://github.com/your-username/mathieu-portfolio" target="_blank" rel="noopener">Code</a>
-              <a href="#" target="_blank" rel="noopener">Live</a>
-            </div>
-          </article>
-        </div>
-
-        <p class="hint muted small">
-          Tip: Hover (or tap on mobile) a project card to reveal more details.
-        </p>
-      </section>
-
-      <!-- SKILLS -->
-      <section id="skills" class="section reveal">
-        <div class="section-head">
-          <h2>Skills</h2>
-          <p class="muted">Tools I use most often.</p>
-        </div>
-
-        <div class="skills">
-          <div class="card">
-            <h3>Languages</h3>
-            <p class="muted">Java • Python • C • JavaScript • SQL</p>
           </div>
-          <div class="card">
-            <h3>Tools</h3>
-            <p class="muted">Git • Linux • VS Code • Unit testing • Debugging</p>
-          </div>
-          <div class="card">
-            <h3>Concepts</h3>
-            <p class="muted">OOP • Data Structures • OS • APIs • Clean Architecture</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- EDUCATION -->
-      <section id="education" class="section reveal">
-        <div class="section-head">
-          <h2>Education</h2>
-          <p class="muted">Where I’m studying and what I’m focusing on.</p>
         </div>
 
         <div class="card">
-          <h3>Queen’s University</h3>
-          <p class="muted">Bachelor of Computing — Software Development (3rd year)</p>
-          <p class="small muted">
-            Add: expected graduation year • relevant courses • awards (optional)
+          <div class="inner">
+            <h3>Interests</h3>
+            <p>
+              Operating systems labs (xv6), concurrency, memory management, and building polished portfolio-grade web projects.
+            </p>
+            <div class="meta">
+              <span class="tag">C / OS</span>
+              <span class="tag">Concurrency</span>
+              <span class="tag">Web UI</span>
+              <span class="tag">Git</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="reveal">
+      <div class="section-title">
+        <h2>Projects</h2>
+        <span>Selected work</span>
+      </div>
+
+      <!-- Project 1 -->
+      <article class="card">
+        <div class="inner">
+          <h3>Operating Systems Labs (xv6)</h3>
+          <p>
+            A set of labs based on the xv6 teaching OS (RISC-V). Focused on OS fundamentals like process behavior,
+            scheduling, memory management (e.g., page faults / lazy allocation concepts), and writing + testing kernel-level changes.
           </p>
+
+          <div class="meta">
+            <span class="tag">C</span>
+            <span class="tag">xv6 / RISC-V</span>
+            <span class="tag">Scheduling</span>
+            <span class="tag">Virtual Memory</span>
+            <span class="tag">Debugging</span>
+          </div>
+
+          <div class="files">
+            <div class="label">
+              <span class="spark"></span>
+              Key files I modified (to help employers jump straight to the “real work”)
+            </div>
+            <ul class="filelist">
+              <li><code>kernel/proc.c</code> — process / scheduling-related work</li>
+              <li><code>kernel/trap.c</code> — trap + exception path changes (where relevant)</li>
+              <li><code>kernel/vm.c</code> — virtual memory + page-table behavior (where relevant)</li>
+              <li><code>kernel/sysproc.c</code> — syscalls (e.g., <code>sbrk</code>-style behavior)</li>
+              <li><code>user/</code> — user programs used to validate kernel behavior</li>
+              <li><code>Makefile</code> — build flags / lab-specific toggles</li>
+              <li><code>test-xv6.py</code> — test harness / validation runs</li>
+            </ul>
+            <p style="margin:10px 0 0; color: rgba(255,255,255,.62); font-size: 12px;">
+              (If you want this list to be *exact*, swap in the specific filenames you remember editing.)
+            </p>
+          </div>
+
+          <div class="project-actions">
+            <a class="mini" href="https://github.com/Radon86x/cisc324-OS" target="_blank" rel="noreferrer">Code on GitHub</a>
+          </div>
         </div>
-      </section>
+      </article>
 
-      <!-- CONTACT -->
-      <section id="contact" class="section reveal">
-        <div class="section-head">
-          <h2>Contact</h2>
-          <p class="muted">Best ways to reach me.</p>
+      <!-- Project 2 (placeholder example) -->
+      <article class="card" style="margin-top: 14px;">
+        <div class="inner">
+          <h3>Software Architecture Analysis (Void IDE)</h3>
+          <p>
+            Architectural analysis of an AI-powered IDE (VS Code fork). Produced conceptual diagrams, SAAM-style reasoning,
+            and use-case driven sequence flows.
+          </p>
+          <div class="meta">
+            <span class="tag">Architecture</span>
+            <span class="tag">UML / Diagrams</span>
+            <span class="tag">Tradeoffs</span>
+          </div>
+          <div class="project-actions">
+            <a class="mini" href="#" onclick="alert('Add your report/link when ready!'); return false;">Add link</a>
+          </div>
         </div>
+      </article>
 
-        <div class="card contact">
-          <p><strong>Email:</strong> <a href="mailto:your.email@example.com">your.email@example.com</a></p>
-          <p><strong>GitHub:</strong> <a href="https://github.com/your-username" target="_blank" rel="noopener">github.com/your-username</a></p>
-          <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noopener">linkedin.com/in/your-handle</a></p>
+      <!-- Project 3 (placeholder example) -->
+      <article class="card" style="margin-top: 14px;">
+        <div class="inner">
+          <h3>Portfolio Website</h3>
+          <p>
+            A fast, interactive static site with animated background, scroll reveals, and a “developer tools” side-rail theme.
+            Built to be clean, readable, and easy to extend.
+          </p>
+          <div class="meta">
+            <span class="tag">HTML/CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">UI polish</span>
+          </div>
+          <div class="project-actions">
+            <a class="mini" href="#" onclick="alert('Add your repo link when ready!'); return false;">Add link</a>
+          </div>
         </div>
-      </section>
+      </article>
+    </section>
 
-      <footer class="footer reveal">
-        <small>© <span id="year"></span> Mathieu Chretien</small>
-      </footer>
-    </main>
+    <section id="contact" class="reveal">
+      <div class="section-title">
+        <h2>Contact</h2>
+        <span>Let’s connect</span>
+      </div>
 
-    <script src="script.js"></script>
-  </body>
+      <div class="card">
+        <div class="inner">
+          <p>
+            Add your email + LinkedIn here when you’re ready. For now, your GitHub is live and linked.
+          </p>
+          <div class="project-actions">
+            <a class="mini" href="https://github.com/Radon86x" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="mini" href="#" onclick="alert('Add your LinkedIn URL here.'); return false;">LinkedIn</a>
+            <a class="mini" href="#" onclick="alert('Add your email (mailto:) here.'); return false;">Email</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="reveal">
+      <div>© <span id="year"></span> Mathieu Chretien</div>
+      <div class="footlinks">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // ===== Cursor glow (smooth follow) =====
+    const glow = document.getElementById("cursorGlow");
+    let mx = window.innerWidth * 0.5, my = window.innerHeight * 0.35;
+    let gx = mx, gy = my;
+
+    window.addEventListener("mousemove", (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+      glow.style.opacity = "0.95";
+    });
+
+    window.addEventListener("mouseleave", () => {
+      glow.style.opacity = "0.35";
+    });
+
+    function tick(){
+      // simple easing
+      gx += (mx - gx) * 0.10;
+      gy += (my - gy) * 0.10;
+      glow.style.left = gx + "px";
+      glow.style.top = gy + "px";
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    // ===== Side rails: generate dev tools/languages =====
+    const left = document.getElementById("railLeft");
+    const right = document.getElementById("railRight");
+
+    const tokens = [
+      "C", "C++", "Java", "Python", "JavaScript", "TypeScript",
+      "HTML", "CSS", "React", "Node.js", "Express", "SQL",
+      "Git", "Linux", "Bash", "xv6", "RISC-V", "GDB",
+      "Make", "Docker", "REST", "APIs", "UML", "Testing"
+    ];
+
+    function buildRail(el, side){
+      // choose a stable but varied ordering
+      const picks = [...tokens].sort(() => Math.random() - 0.5).slice(0, 16);
+
+      // Clear
+      el.innerHTML = "";
+
+      picks.forEach((t, i) => {
+        const s = document.createElement("div");
+        s.className = "chip";
+
+        // Slightly "codey" look
+        const nice = (t.length <= 4) ? `<strong>${t}</strong>` : t;
+        s.innerHTML = nice;
+
+        // Random-ish offsets
+        const x = (side === "left")
+          ? Math.floor(Math.random() * 26) - 10
+          : Math.floor(Math.random() * 26) - 16;
+
+        const y = Math.floor(Math.random() * 16) - 8;
+        const dur = 8 + Math.random() * 10;
+        const op = 0.72 + Math.random() * 0.28;
+
+        s.style.setProperty("--x", x + "px");
+        s.style.setProperty("--y", y + "px");
+        s.style.setProperty("--d", dur + "s");
+        s.style.setProperty("--o", op);
+
+        // Stagger spacing by adding top margin on some items
+        if(i % 3 === 0) s.style.marginTop = "8px";
+        if(i % 5 === 0) s.style.marginTop = "16px";
+
+        el.appendChild(s);
+      });
+    }
+
+    buildRail(left, "left");
+    buildRail(right, "right");
+
+    // Rebuild rails on resize (rare)
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        buildRail(left, "left");
+        buildRail(right, "right");
+      }, 250);
+    });
+
+    // ===== Scroll reveal =====
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting){
+          e.target.classList.add("on");
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach(el => obs.observe(el));
+
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
 </html>
