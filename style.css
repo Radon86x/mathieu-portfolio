@@ -206,3 +206,103 @@ h1 {
   .grid { grid-template-columns: 1fr; }
   .skills { grid-template-columns: 1fr; }
 }
+/* ===== Animated background layer ===== */
+:root {
+  --mx: 0;   /* mouse x (-1..1) */
+  --my: 0;   /* mouse y (-1..1) */
+}
+
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* soft glow so the page feels less flat */
+.bg-glow {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(120, 170, 255, 0.18), transparent 55%),
+    radial-gradient(circle at 80% 30%, rgba(80, 255, 200, 0.10), transparent 55%),
+    radial-gradient(circle at 50% 90%, rgba(170, 120, 255, 0.10), transparent 55%);
+  transform: translate(calc(var(--mx) * 12px), calc(var(--my) * 12px));
+  filter: blur(10px);
+}
+
+.bg-sides {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  transform: translate(calc(var(--mx) * 18px), calc(var(--my) * 18px));
+  opacity: 0.9;
+}
+
+.side {
+  width: min(220px, 24vw);
+  height: 100%;
+  position: relative;
+  padding: 18px 10px;
+
+  /* fade top/bottom so it blends nicely */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 14%, black 86%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 14%, black 86%, transparent);
+}
+
+.side.left { align-items: flex-start; }
+.side.right { align-items: flex-end; }
+
+.stack {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+  animation: scrollUp 24s linear infinite;
+}
+
+.side.right .stack {
+  animation-direction: reverse;
+}
+
+.stack.clone {
+  top: 100%;
+}
+
+/* pill-like tech tags */
+.tag {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--panel) 70%, transparent);
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+
+  /* slight randomness feel */
+  transform: rotate(var(--r, 0deg));
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+
+/* make each tag slightly different without JS */
+.stack .tag:nth-child(3n) { --r: -2deg; }
+.stack .tag:nth-child(3n+1) { --r: 1.5deg; }
+.stack .tag:nth-child(3n+2) { --r: 0.5deg; }
+
+@keyframes scrollUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-100%); }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .stack { animation: none; }
+  .bg-glow, .bg-sides { transform: none; }
+}
