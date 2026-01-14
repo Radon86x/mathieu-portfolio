@@ -55,9 +55,9 @@ if (!prefersReduced) {
 const typedEl = document.getElementById("typed");
 
 const phrases = [
-  "I build clean, reliable software.",
+  "I pride myself in building reliable software to fit your needs",
   "I like systems, debugging, and performance.",
-  "I turn ideas into polished projects.",
+  "I've loved programming since I was 9 years old.",
   "I’m always learning and open to advice and criticism."
 ];
 
