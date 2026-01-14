@@ -58,7 +58,7 @@ const phrases = [
   "I build clean, reliable software.",
   "I like systems, debugging, and performance.",
   "I turn ideas into polished projects.",
-  "I’m always learning and shipping improvements."
+  "I’m always learning and open to advice and criticism."
 ];
 
 function typewriter(el, lines) {
