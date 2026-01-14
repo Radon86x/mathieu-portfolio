@@ -152,7 +152,7 @@ typewriter(typedEl, phrases);
       box-shadow: 0 18px 46px rgba(0,0,0,0.28);
     }
     .project-card.tapped .card-more {
-      max-height: 350px;
+      max-height: 600px;
       opacity: 1;
     }
     .project-card.tapped::after { opacity: 1; }
